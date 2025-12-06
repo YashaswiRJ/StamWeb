@@ -1,0 +1,23 @@
+[
+    {
+      "name": "Saurav Kumar",
+      "role": "President",
+      "linkedin": "https://linkedin.com/in/saurav",
+      "github": "https://github.com/saurav",
+      "bio": "Leads competitions and workshops."
+    },
+    {
+      "name": "virat ",
+      "role": "Vice President",
+      "linkedin": "https://linkedin.com/in/ananya",
+      "github": "https://github.com/ananya",
+      "bio": "Events & outreach coordinator."
+    },
+    {
+      "name": "Rohit Sharma",
+      "role": "Technical Lead",
+      "linkedin": "",
+      "github": "https://github.com/rohit",
+      "bio": "Frontend & infra."
+    }
+  ]
