@@ -32,18 +32,18 @@ function Navbar() {
             <span className="dropdown-label">Competitions ▾</span>
 
             <div className="dropdown-menu">
-              <a href="/#integration" className="dropdown-item">
-                Integration Bee
-              </a>
+              <NavLink to="/integrationbee" className="dropdown-item">
+                integration bee
+              </NavLink>
 
               {/* Mathemania has its own page */}
               <NavLink to="/mathemania" className="dropdown-item">
                 Mathemania
               </NavLink>
 
-              <a href="/#participants" className="dropdown-item">
+              <NavLink to="/participants" className="dropdown-item">
                 Participants
-              </a>
+              </NavLink>
             </div>
           </div>
 

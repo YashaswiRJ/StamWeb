@@ -10,6 +10,7 @@ import Blogs from "./pages/Blogs";  // <--- NEW: Import the page
 
 import Mathemania from "./pages/Mathemania";
 import Team from "./pages/Team";
+import Participants from "./pages/Participants";
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
         <Route path="/mathemania" element={<Mathemania />} />
 
         <Route path="/team" element={<Team />} />
+
+        <Route path="/competitions/participants" element={<Participants />} />
+
 
       </Routes>
     </div>
