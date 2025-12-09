@@ -22,23 +22,21 @@ function Contact() {
     e.preventDefault(); // Stop the page from reloading
     setStatus("Sending...");
 
-    // =========================================================
-    // PASTE YOUR GOOGLE URL BELOW (Between the quotes)
-    // =========================================================
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSyz7fgt9fSn3lgMGnExv7I9sTAm8R7Eq_OmzF6uR8Gdd6zTr5gLPcu_XV4VH_xwHwqg/exec"; 
+    // YOUR DEPLOYED GOOGLE SCRIPT URL
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzF_wBFFV3aobvb9V2gQetQgRsc5yDlrIcrhTBrwWd84Y-q6mJxTdK9ZsUfPD9BKiiA/exec"; 
 
     try {
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", // IMPORTANT: This bypasses browser security checks for Google
+        mode: "no-cors", // IMPORTANT: Bypasses browser CORS checks
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "text/plain;charset=utf-8", // IMPORTANT: Prevents preflight errors
         },
         body: JSON.stringify(formData),
       });
 
-      // Because of "no-cors", we won't get a standard JSON response,
-      // so we assume if it didn't crash, it worked.
+      // Because of "no-cors", we won't get a visible JSON response.
+      // If the code reaches here, the request was sent successfully.
       setStatus("Message Sent! We will get back to you soon.");
       setFormData({ name: "", email: "", message: "" }); // Clear the form
 
@@ -102,14 +100,18 @@ function Contact() {
           </button>
 
           {/* Status Message (Success/Error) */}
-          {status && <p style={styles.status}>{status}</p>}
+          {status && (
+            <p style={status.includes("Failed") ? styles.errorMsg : styles.successMsg}>
+              {status}
+            </p>
+          )}
         </form>
       </div>
     </div>
   );
 }
 
-// Dark Theme Styles to match your site
+// Dark Theme Styles
 const styles = {
   container: {
     padding: "80px 20px",
@@ -152,7 +154,8 @@ const styles = {
     marginTop: "10px",
     transition: "background 0.3s",
   },
-  status: { marginTop: "15px", color: "#4caf50", fontWeight: "bold" },
+  successMsg: { marginTop: "15px", color: "#4caf50", fontWeight: "bold" },
+  errorMsg: { marginTop: "15px", color: "#ff4b4b", fontWeight: "bold" },
 };
 
 export default Contact;
