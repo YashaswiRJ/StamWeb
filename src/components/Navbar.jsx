@@ -34,6 +34,7 @@ function Navbar() {
             <div className="dropdown-menu">
               <NavLink to="/integrationbee" className="dropdown-item">
                 integration bee
+                integrationBee
               </NavLink>
 
               {/* Mathemania has its own page */}
@@ -44,6 +45,11 @@ function Navbar() {
               <NavLink to="/participants" className="dropdown-item">
                 Participants
               </NavLink>
+              
+              <NavLink to="/participants" className="dropdown-item">
+                Participants
+              </NavLink>
+
             </div>
           </div>
 
