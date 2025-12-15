@@ -1,32 +1,86 @@
 // src/pages/BlogReader.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import "katex/dist/katex.min.css"; // Styles for the math
-import { blogs } from "../data/blogs"; // Import our fake database
+import "katex/dist/katex.min.css";
+
+import "../styles/pages/blog-reader.css"; // ← NEW
 
 function BlogReader() {
   const { id } = useParams(); // Get the ID from the URL
-  const blog = blogs.find((b) => b.id === id); // Find the matching blog
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogContent = async () => {
+      // PASTE YOUR GOOGLE WEB APP URL HERE
+      const GOOGLE_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbzWdwnoRrTY9P790xcwkglWhS1gU4D5zFR49ylL2LtGiTYFDHdhp3bdHb1D4hgaK5JV/exec";
+
+      try {
+        // Fetch all blogs (Google Sheets is fast enough for this size)
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=get_blogs`);
+        const data = await response.json();
+
+        // Find the specific blog that matches the ID in the URL
+        const foundBlog = data.find((b) => String(b.id) === id);
+
+        if (foundBlog) {
+          setBlog(foundBlog);
+        } else {
+          console.error("Blog not found");
+        }
+      } catch (error) {
+        console.error("Error fetching blog post:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogContent();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="blog-reader-container">
+        <div className="blog-reader-header blog-reader-header--no-border">
+          Loading article...
+        </div>
+      </div>
+    );
+  }
 
   if (!blog) {
-    return <div style={{ color: "white", padding: "50px" }}>Blog not found!</div>;
+    return (
+      <div className="blog-reader-container">
+        <h1 className="blog-reader-title">404</h1>
+        <p>Blog post not found.</p>
+        <Link to="/blogs" className="blog-reader-back-link">
+          ← Back to all blogs
+        </Link>
+      </div>
+    );
   }
 
   return (
-    <div style={styles.container}>
-      <Link to="/" style={styles.backLink}>← Back to Home</Link>
-      
+    <div className="blog-reader-container">
+      <Link to="/blogs" className="blog-reader-back-link">
+        ← Back to All Articles
+      </Link>
+
       {/* Header */}
-      <div style={styles.header}>
-        <h1 style={styles.title}>{blog.title}</h1>
-        <p style={styles.meta}>{blog.author} • {blog.date}</p>
+      <div className="blog-reader-header">
+        <h1 className="blog-reader-title">{blog.title}</h1>
+        <p className="blog-reader-meta">
+          {blog.author} •{" "}
+          {blog.date ? new Date(blog.date).toLocaleDateString() : ""}
+        </p>
       </div>
 
       {/* The Article Content */}
-      <div className="blog-content" style={styles.content}>
+      <div className="blog-content blog-reader-content">
         <ReactMarkdown
           children={blog.content}
           remarkPlugins={[remarkMath]}
@@ -36,40 +90,5 @@ function BlogReader() {
     </div>
   );
 }
-
-// Simple CSS styles to match your dark theme
-const styles = {
-  container: {
-    maxWidth: "800px",
-    margin: "0 auto",
-    padding: "40px 20px",
-    color: "#e0e0e0",
-    minHeight: "100vh",
-  },
-  backLink: {
-    color: "#888",
-    textDecoration: "none",
-    marginBottom: "20px",
-    display: "inline-block",
-  },
-  header: {
-    borderBottom: "1px solid #333",
-    paddingBottom: "20px",
-    marginBottom: "30px",
-  },
-  title: {
-    fontSize: "2.5rem",
-    marginBottom: "10px",
-    color: "#fff",
-  },
-  meta: {
-    color: "#888",
-    fontSize: "0.9rem",
-  },
-  content: {
-    fontSize: "1.1rem",
-    lineHeight: "1.6",
-  }
-};
 
 export default BlogReader;
