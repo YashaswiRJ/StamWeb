@@ -6,7 +6,6 @@ import { Link } from "react-router-dom"; // Import Link for navigation
 import "../styles/pages/home.css"; 
 
 import bgImage from "../assets/home_background.jpg";
-import { blogs } from "../data/blogs";   // Import your blog data
 
 function Home() {
   return (
@@ -29,35 +28,6 @@ function Home() {
               Bring problems. Leave with answers.
             </p>
             <button className="hero-button">Explore Competitions</button>
-          </section>
-
-          {/* RIGHT BLOGS PANEL */}
-          <section className="hero-right" id="blogs">
-            <div className="newsletter-card">
-              <h3 className="newsletter-title">Latest Blogs</h3>
-
-              <div className="blog-list">
-                {blogs.map((blog) => (
-                  <article className="blog-item" key={blog.id}>
-                    <div className="blog-thumbnail">
-                      <img
-                        src="https://via.placeholder.com/80x60"
-                        alt={blog.title}
-                      />
-                    </div>
-                    <div className="blog-info">
-                      <h4 className="blog-title">{blog.title}</h4>
-                      <p className="blog-meta">
-                        {blog.author} · {blog.date}
-                      </p>
-                      <Link to={`/blogs/${blog.id}`} className="blog-link">
-                        Read more →
-                      </Link>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
           </section>
         </main>
 
