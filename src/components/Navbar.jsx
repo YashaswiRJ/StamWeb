@@ -1,7 +1,7 @@
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png"; 
 
-import "../styles/components/navbar.css"; // ← ONLY ADDITION
+import "../styles/components/navbar.css";
 
 const navLinkClass = ({ isActive }) =>
   "nav-link " + (isActive ? "nav-link-active" : "");
@@ -26,7 +26,6 @@ function Navbar() {
     return (
       <header className="navbar">
         <div className="navbar-inner">
-          {/* ADMIN LOGO AREA */}
           <Link to={isLoginPage ? "/admin" : "/admin/dashboard"} className="logo">
             <img src={logo} alt="Stamatics Logo" className="logo-image" />
             <div className="logo-text">
@@ -34,7 +33,6 @@ function Navbar() {
             </div>
           </Link>
 
-          {/* 3. CONDITIONAL RENDERING: Hide these links if on Login Page */}
           {!isLoginPage && (
             <nav className="top-right-nav">
               <NavLink to="/admin/dashboard" className={navLinkClass}>
@@ -66,12 +64,11 @@ function Navbar() {
     );
   }
 
-  // ================= PUBLIC NAVBAR (Standard) =================
+  // ================= PUBLIC NAVBAR =================
   return (
     <header className="navbar">
       <div className="navbar-inner">
 
-        {/* PUBLIC LOGO */}
         <Link to="/" className="logo">
           <img src={logo} alt="Stamatics Logo" className="logo-image" />
           <div className="logo-text">
@@ -80,9 +77,8 @@ function Navbar() {
           </div>
         </Link>
 
-        {/* PUBLIC NAVIGATION */}
         <nav className="nav-links top-right-nav">
-          <a href="/#about" className="nav-link">About Us</a>
+          {/* About Us link REMOVED */}
 
           <div className="dropdown">
             <span className="dropdown-label">Competitions ▾</span>
