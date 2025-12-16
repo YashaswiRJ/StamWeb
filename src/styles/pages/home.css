@@ -1,10 +1,12 @@
-/* HERO SECTION */
+/* =========================
+   HERO SECTION
+========================= */
 
 .hero-root {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-size: contain;
+  background-size: cover;          /* FULL background */
   background-position: center top;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -27,179 +29,106 @@
   z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 32px 80px;
+  padding: 0 32px;
   min-height: 100vh;
 
   display: grid;
   grid-template-columns: 1.4fr 1.6fr;
-  align-items: center;
   gap: 120px;
 }
 
-/* HERO LEFT */
+/* =========================
+   LEFT COLUMN
+========================= */
 
 .hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 26vh; /* adjust hero text vertical position */
+  min-height: 100vh;
+}
+
+.hero-center {
   max-width: 640px;
 }
 
 .hero-title {
   font-size: clamp(38px, 4vw + 10px, 60px);
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .hero-subtitle {
   font-size: 18px;
   color: var(--text-muted);
-  margin-bottom: 36px;
 }
 
-.hero-button {
-  padding: 12px 36px;
-  border-radius: 4px;
-  background: transparent;
-  color: #fff;
-  border: 1px solid var(--border-muted);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.hero-button:hover {
-  background: #fff;
-  color: #000;
-  transform: translateY(-1px);
-}
-
-/* HERO RIGHT */
+/* =========================
+   RIGHT COLUMN
+========================= */
 
 .hero-right {
-  display: flex;
-  justify-content: flex-end;
+  display: block;
 }
 
-.newsletter-card {
-  background: var(--card-bg);
-  padding: 24px 28px;
-  max-width: 540px;
-  border-radius: 12px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+/* =========================
+   ABOUT US (OVERLAPS HERO)
+========================= */
+
+.about-full {
+  width: 100%;
+  padding: 0 32px 64px;
+  margin-top: -380px;        /* pulls About over hero */
+  background: transparent;
+  position: relative;
+  z-index: 2;                /* above hero overlay */
 }
 
-.newsletter-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.blog-list {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.blog-item {
-  display: flex;
-  gap: 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-}
-
-.blog-thumbnail img {
-  width: 90px;
-  height: 70px;
-  border-radius: 6px;
-  object-fit: cover;
-}
-
-.blog-info {
-  flex: 1;
-}
-
-.blog-title {
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.blog-meta {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-
-.blog-link {
-  font-size: 13px;
-  font-weight: 700;
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-/* SCROLL ARROW */
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.scroll-arrow {
-  font-size: 24px;
-  color: #ffffff;
-}
-
-/* ABOUT SECTION */
-
-.about-section {
-  padding: 80px 32px 100px;
-  background: rgba(0, 0, 0, 0.95);
-  min-height: 100vh;
-}
-
-.about-inner {
-  max-width: 1200px;
+.about-full-inner {
+  max-width: 1400px;
   margin: 0 auto;
-}
-
-.about-title {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-
-.about-text {
-  max-width: 800px;
-  color: var(--text-muted);
-  font-size: 16px;
-  line-height: 1.7;
-  margin-bottom: 40px;
-}
-
-.about-grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-
-.about-card {
   background: rgba(15, 23, 42, 0.88);
   border: 1px solid rgba(148, 163, 184, 0.45);
-  padding: 18px 20px;
-  border-radius: 12px;
+  border-radius: 14px;
+  padding: 28px 32px;
+  backdrop-filter: blur(6px);
 }
 
-.about-card h3 {
-  font-size: 18px;
+.about-full-title {
+  font-size: 32px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
-.about-card p {
-  font-size: 14px;
+.about-full-text {
+  font-size: 16px;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-left {
+    padding-top: 18vh;
+    min-height: auto;
+  }
+
+  .about-full {
+    margin-top: -140px;
+    padding: 0 20px 48px;
+  }
+
+  .about-full-inner {
+    padding: 22px 20px;
+  }
 }
