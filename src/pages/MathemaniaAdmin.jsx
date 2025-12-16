@@ -6,7 +6,7 @@ import "../styles/pages/mathemania-admin.css"; // ← NEW
 
 export default function MathemaniaAdmin() {
   const navigate = useNavigate();
-  
+
   // Data States
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ export default function MathemaniaAdmin() {
     try {
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        body: JSON.stringify({ action: "update_announcement", text: announcement }),
+        body: JSON.stringify({ action: "update_announcement", text: announcement, token: localStorage.getItem("admin_token") }),
       });
       alert("Announcement updated!");
       setAnnouncement("");
@@ -60,11 +60,11 @@ export default function MathemaniaAdmin() {
           <div style={styles.card}>
             <h3 style={styles.cardTitle}>Announcements</h3>
             <p style={styles.cardDesc}>Update the event page marquee</p>
-            <textarea 
+            <textarea
               value={announcement}
               onChange={(e) => setAnnouncement(e.target.value)}
-              placeholder="Type update here..." 
-              style={styles.textArea} 
+              placeholder="Type update here..."
+              style={styles.textArea}
             />
             <button onClick={handlePublish} style={styles.actionBtn}>Publish Update</button>
           </div>
@@ -118,16 +118,16 @@ const styles = {
   header: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px" },
   title: { fontSize: "2rem", fontWeight: "700" },
   backBtn: { background: "none", border: "1px solid #334155", color: "#94a3b8", padding: "8px 16px", borderRadius: "8px", cursor: "pointer" },
-  
+
   // Changed grid to single column since we removed one card
   controlsGrid: { display: "grid", gridTemplateColumns: "1fr", gap: "24px", marginBottom: "30px", maxWidth: "600px" },
-  
+
   card: { background: "rgba(30, 41, 59, 0.4)", border: "1px solid #334155", borderRadius: "12px", padding: "24px" },
   cardTitle: { fontSize: "1.2rem", fontWeight: "600", marginBottom: "8px" },
   cardDesc: { color: "#94a3b8", fontSize: "0.9rem", marginBottom: "16px" },
   textArea: { width: "100%", background: "#0f172a", border: "1px solid #334155", borderRadius: "8px", padding: "12px", color: "white", minHeight: "80px", marginBottom: "12px" },
   actionBtn: { background: "#7b4bff", color: "white", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "600", cursor: "pointer" },
-  
+
   tableCard: { background: "rgba(30, 41, 59, 0.4)", border: "1px solid #334155", borderRadius: "12px", overflow: "hidden" },
   tableHeader: { padding: "20px", borderBottom: "1px solid #334155", display: "flex", justifyContent: "space-between" },
   refreshBtn: { background: "none", color: "#7b4bff", border: "none", cursor: "pointer", fontWeight: "600" },

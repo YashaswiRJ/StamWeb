@@ -1,5 +1,5 @@
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png"; 
+import logo from "../assets/logo.png";
 
 import "../styles/components/navbar.css";
 
@@ -12,7 +12,7 @@ function Navbar() {
 
   // 1. Identify if we are in the admin section
   const isAdminRoute = location.pathname.startsWith("/admin");
-  
+
   // 2. Identify if we are specifically on the Login page
   const isLoginPage = location.pathname === "/admin";
 
@@ -38,21 +38,21 @@ function Navbar() {
               <NavLink to="/admin/dashboard" className={navLinkClass}>
                 Dashboard
               </NavLink>
-              
+
               <a href="/" target="_blank" rel="noreferrer" className="nav-link">
                 View Live Site ↗
               </a>
 
-              <button 
+              <button
                 onClick={handleLogout}
                 className="nav-link"
-                style={{ 
-                  background: "rgba(239, 68, 68, 0.15)", 
-                  color: "#ef4444", 
+                style={{
+                  background: "rgba(239, 68, 68, 0.15)",
+                  color: "#ef4444",
                   border: "1px solid rgba(239, 68, 68, 0.3)",
                   padding: "8px 16px",
                   borderRadius: "6px",
-                  cursor: "pointer" 
+                  cursor: "pointer"
                 }}
               >
                 Logout
@@ -85,7 +85,7 @@ function Navbar() {
             <div className="dropdown-menu">
               <a href="/#integration" className="dropdown-item">Integration Bee</a>
               <NavLink to="/mathemania" className="dropdown-item">Mathemania</NavLink>
-              <a href="/#participants" className="dropdown-item">Participants</a>
+              {/* Participants link removed */}
             </div>
           </div>
 

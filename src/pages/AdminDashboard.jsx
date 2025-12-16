@@ -22,7 +22,7 @@ export default function AdminDashboard() {
 
         {/* Cards Grid */}
         <div className="admin-dashboard-grid">
-          
+
           {/* Card 1: Mathemania */}
           <Link to="/admin/mathemania" className="admin-dashboard-card">
             <div className="admin-dashboard-card-icon">🏆</div>
@@ -41,6 +41,16 @@ export default function AdminDashboard() {
               Write and publish new articles using Markdown and LaTeX support.
             </p>
             <span className="admin-dashboard-link-text">Open Editor →</span>
+          </Link>
+
+          {/* Card 3: Team Management */}
+          <Link to="/admin/team" className="admin-dashboard-card">
+            <div className="admin-dashboard-card-icon">👥</div>
+            <h2 className="admin-dashboard-card-title">Team</h2>
+            <p className="admin-dashboard-card-desc">
+              Add or remove team members and update their details.
+            </p>
+            <span className="admin-dashboard-link-text">Manage Team →</span>
           </Link>
 
         </div>

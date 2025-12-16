@@ -54,18 +54,19 @@
 }
 
 /* AVATAR */
+/* AVATAR */
 .team-avatar-img {
-  width: 100px;
-  height: 100px;
+  width: 140px; /* Increased from 100px */
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #7b4bff;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .team-avatar-placeholder {
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: rgba(123, 75, 255, 0.15);
   color: #7b4bff;
@@ -73,9 +74,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 /* TEXT CONTENT */
