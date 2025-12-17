@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 
 // Components
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
+
 
 // Public Pages
 import Home from "./pages/Home";
@@ -17,27 +19,29 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import MathemaniaAdmin from "./pages/MathemaniaAdmin";
 import BlogAdmin from "./pages/BlogAdmin";
+import TeamAdmin from "./pages/TeamAdmin";
 
 import "./styles/globals.css";
 
 function App() {
   return (
     <div className="page-root">
+      <ScrollToTop />
       <Navbar />
       <Routes>
         {/* ================= PUBLIC ROUTES ================= */}
         <Route path="/" element={<Home />} />
-        
+
         {/* Since you don't have a specific Competitions page yet, 
             we can redirect /competitions to Mathemania or just remove it.
             For now, I have removed it to prevent errors. 
             [cite_start]The Navbar links directly to /mathemania anyway. [cite: 22] */}
-        
+
         <Route path="/mathemania" element={<Mathemania />} />
-        
+
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogs/:id" element={<BlogReader />} />
-        
+
         <Route path="/team" element={<Team />} />
         <Route path="/contact" element={<Contact />} />
 
@@ -46,9 +50,10 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/mathemania" element={<MathemaniaAdmin />} />
         <Route path="/admin/blogs" element={<BlogAdmin />} />
-        
+        <Route path="/admin/team" element={<TeamAdmin />} />
+
         {/* Fallback for unknown routes (optional) */}
-        <Route path="*" element={<div style={{padding: 50, color: "white"}}>404 - Page Not Found</div>} />
+        <Route path="*" element={<div style={{ padding: 50, color: "white" }}>404 - Page Not Found</div>} />
       </Routes>
     </div>
   );

@@ -20,7 +20,8 @@ function Mathemania() {
   });
 
   const [submitting, setSubmitting] = useState(false);
-  const [announcement, setAnnouncement] = useState(""); // ← RESTORED
+  const [announcement, setAnnouncement] = useState("");
+  const [contactError, setContactError] = useState(""); // New state for inline error
 
   // --- RESTORED ANNOUNCEMENT FETCHING ---
   useEffect(() => {
@@ -50,6 +51,14 @@ function Mathemania() {
       alert(
         "Team name can only contain letters, numbers, spaces, and underscores. No emojis or special symbols."
       );
+      return;
+    }
+
+    // --- CONTACT NUMBER VALIDATION ---
+    const phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(formData.contactNumber.trim())) {
+      setContactError("Please enter a valid 10-digit contact number."); // Set inline error if user tries to submit invalid
+      // Scroll to error if needed, or just return. Use simple return for now.
       return;
     }
 
@@ -277,14 +286,26 @@ function Mathemania() {
                 name="contactNumber"
                 type="tel"
                 required
+                maxLength="10"
                 placeholder="10-digit phone number"
                 value={formData.contactNumber}
-                onChange={handleChange}
+                onChange={(e) => {
+                  // Allow only digits
+                  const val = e.target.value.replace(/\D/g, "");
+                  setFormData((prev) => ({ ...prev, contactNumber: val }));
+                  if (contactError) setContactError(""); // Clear error on typing
+                }}
+                onBlur={() => {
+                  if (formData.contactNumber && formData.contactNumber.length !== 10) {
+                    setContactError("Contact number must be exactly 10 digits.");
+                  }
+                }}
               />
+              {contactError && <p className="error-message" style={{ color: "red", fontSize: "0.85rem", marginTop: "5px" }}>{contactError}</p>}
             </div>
 
-            {/* MEMBER 2 */}
-            <div className="mathemania-field-group">
+            {/* MEMBER 2 (Disabled until Team Leader details are filled) */}
+            <div className="mathemania-field-group" style={{ opacity: (formData.teamLeader && formData.email && formData.contactNumber) ? 1 : 0.6 }}>
               <div className="mathemania-field">
                 <label htmlFor="member2">Team Member 2</label>
                 <input
@@ -294,6 +315,8 @@ function Mathemania() {
                   placeholder="Name (optional)"
                   value={formData.member2Name}
                   onChange={handleChange}
+                  disabled={!formData.teamLeader || !formData.email || !formData.contactNumber}
+                  title={(!formData.teamLeader || !formData.email || !formData.contactNumber) ? "Fill Team Leader details first" : ""}
                 />
               </div>
               <div className="mathemania-field">
@@ -305,12 +328,13 @@ function Mathemania() {
                   placeholder="member2@example.com"
                   value={formData.member2Email}
                   onChange={handleChange}
+                  disabled={!formData.teamLeader || !formData.email || !formData.contactNumber}
                 />
               </div>
             </div>
 
-            {/* MEMBER 3 */}
-            <div className="mathemania-field-group">
+            {/* MEMBER 3 (Disabled until Member 2 is filled) */}
+            <div className="mathemania-field-group" style={{ opacity: (formData.member2Name || formData.member2Email) ? 1 : 0.6 }}>
               <div className="mathemania-field">
                 <label htmlFor="member3">Team Member 3</label>
                 <input
@@ -320,6 +344,8 @@ function Mathemania() {
                   placeholder="Name (optional)"
                   value={formData.member3Name}
                   onChange={handleChange}
+                  disabled={!formData.member2Name && !formData.member2Email}
+                  title={(!formData.member2Name && !formData.member2Email) ? "Fill Member 2 details first" : ""}
                 />
               </div>
               <div className="mathemania-field">
@@ -331,12 +357,13 @@ function Mathemania() {
                   placeholder="member3@example.com"
                   value={formData.member3Email}
                   onChange={handleChange}
+                  disabled={!formData.member2Name && !formData.member2Email}
                 />
               </div>
             </div>
 
-            {/* MEMBER 4 */}
-            <div className="mathemania-field-group">
+            {/* MEMBER 4 (Disabled until Member 3 is filled) */}
+            <div className="mathemania-field-group" style={{ opacity: (formData.member3Name || formData.member3Email) ? 1 : 0.6 }}>
               <div className="mathemania-field">
                 <label htmlFor="member4">Team Member 4</label>
                 <input
@@ -346,6 +373,8 @@ function Mathemania() {
                   placeholder="Name (optional)"
                   value={formData.member4Name}
                   onChange={handleChange}
+                  disabled={!formData.member3Name && !formData.member3Email}
+                  title={(!formData.member3Name && !formData.member3Email) ? "Fill Member 3 details first" : ""}
                 />
               </div>
               <div className="mathemania-field">
@@ -357,6 +386,7 @@ function Mathemania() {
                   placeholder="member4@example.com"
                   value={formData.member4Email}
                   onChange={handleChange}
+                  disabled={!formData.member3Name && !formData.member3Email}
                 />
               </div>
             </div>

@@ -6,7 +6,8 @@ import "katex/dist/katex.min.css";
 import { useNavigate } from "react-router-dom";
 import { GOOGLE_SCRIPT_URL } from "../config";
 
-import "../styles/pages/blog-admin.css"; // ← NEW
+import "../styles/pages/blog-admin.css";
+import { cleanMarkdown } from "../utils/cleanMarkdown";
 
 const initialBlog = { title: "", author: "", content: "# New Post\n\nStart writing..." };
 
@@ -14,7 +15,7 @@ export default function BlogAdmin() {
   const [blogData, setBlogData] = useState(initialBlog);
   const [editingId, setEditingId] = useState(null); // ID of blog being edited
   const [importing, setImporting] = useState(false);
-  
+
   // List State
   const [existingBlogs, setExistingBlogs] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
@@ -34,7 +35,12 @@ export default function BlogAdmin() {
     try {
       const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=get_blogs`);
       const data = await response.json();
-      setExistingBlogs(Array.isArray(data) ? data : []);
+      if (data.error) {
+        alert("Backend Error: " + data.error);
+        setExistingBlogs([]);
+      } else {
+        setExistingBlogs(Array.isArray(data) ? data : []);
+      }
     } catch (error) {
       console.error("Error loading list:", error);
     } finally {
@@ -64,13 +70,14 @@ export default function BlogAdmin() {
 
     // Decide Action: CREATE or EDIT
     const action = editingId ? "edit_blog" : "create_blog";
-    
+
     // If Creating: Generate new ID. If Editing: Use existing ID.
     const id = editingId ? editingId : blogData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now();
 
     const payload = {
       action: action,
       id: id,
+      token: localStorage.getItem("admin_token"),
       title: blogData.title,
       author: blogData.author,
       content: blogData.content
@@ -79,13 +86,13 @@ export default function BlogAdmin() {
     try {
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", 
+        mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload),
       });
 
       alert(editingId ? "Blog updated successfully!" : "Blog published successfully!");
-      setBlogData(initialBlog); 
+      setBlogData(initialBlog);
       setEditingId(null); // Exit edit mode
       fetchExistingBlogs(); // Refresh list to show changes
     } catch (error) {
@@ -102,7 +109,7 @@ export default function BlogAdmin() {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action: "delete_blog", id: id }),
+        body: JSON.stringify({ action: "delete_blog", id: id, token: localStorage.getItem("admin_token") }),
       });
     } catch (error) {
       alert("Failed to delete.");
@@ -119,7 +126,7 @@ export default function BlogAdmin() {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action: "import_medium" }),
+        body: JSON.stringify({ action: "import_medium", token: localStorage.getItem("admin_token") }),
       });
       alert("Request sent! Refreshing list...");
       setTimeout(fetchExistingBlogs, 5000);
@@ -140,11 +147,11 @@ export default function BlogAdmin() {
           </div>
           <div style={styles.btnGroup}>
             {!editingId && (
-              <button onClick={handleImportMedium} disabled={importing} style={{...styles.secondaryBtn, color: "#a78bfa", borderColor: "#a78bfa"}}>
+              <button onClick={handleImportMedium} disabled={importing} style={{ ...styles.secondaryBtn, color: "#a78bfa", borderColor: "#a78bfa" }}>
                 {importing ? "Importing..." : "📥 Import Medium"}
               </button>
             )}
-            
+
             {editingId ? (
               <button onClick={handleCancelEdit} style={styles.secondaryBtn}>Cancel Edit</button>
             ) : (
@@ -160,9 +167,9 @@ export default function BlogAdmin() {
         {/* EDITOR */}
         <div style={styles.editorGrid}>
           <div style={styles.inputCol}>
-            <input name="title" placeholder="Post Title" value={blogData.title} onChange={handleChange} style={styles.titleInput}/>
-            <input name="author" placeholder="Author Name" value={blogData.author} onChange={handleChange} style={styles.metaInput}/>
-            <textarea name="content" value={blogData.content} onChange={handleChange} style={styles.contentInput}/>
+            <input name="title" placeholder="Post Title" value={blogData.title} onChange={handleChange} style={styles.titleInput} />
+            <input name="author" placeholder="Author Name" value={blogData.author} onChange={handleChange} style={styles.metaInput} />
+            <textarea name="content" value={blogData.content} onChange={handleChange} style={styles.contentInput} />
           </div>
 
           <div style={styles.previewCol}>
@@ -171,11 +178,11 @@ export default function BlogAdmin() {
               <h1 style={styles.prevTitle}>{blogData.title || "Untitled"}</h1>
               <p style={styles.prevMeta}>{blogData.author || "Author"} • {new Date().toLocaleDateString()}</p>
               <div className="markdown-body" style={styles.markdownBody}>
-                <ReactMarkdown 
-                  children={blogData.content} 
-                  remarkPlugins={[remarkMath]} 
-                  rehypePlugins={[rehypeKatex]} 
-                  components={{ img: ({node, ...props}) => <img {...props} style={{ maxWidth: "100%", borderRadius: "8px", margin: "15px 0" }} /> }}
+                <ReactMarkdown
+                  children={cleanMarkdown(blogData.content)}
+                  remarkPlugins={[remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                  components={{ img: ({ node, ...props }) => <img {...props} style={{ maxWidth: "100%", borderRadius: "8px", margin: "15px 0" }} /> }}
                 />
               </div>
             </div>
@@ -185,16 +192,16 @@ export default function BlogAdmin() {
         {/* MANAGE SECTION */}
         <div style={styles.manageSection}>
           <h2 style={styles.manageTitle}>Manage Existing Blogs</h2>
-          {loadingList ? <p style={{color:"#64748b"}}>Loading list...</p> : (
+          {loadingList ? <p style={{ color: "#64748b" }}>Loading list...</p> : (
             <div style={styles.listGrid}>
-              {existingBlogs.length === 0 && <p style={{color:"#64748b"}}>No blogs found.</p>}
+              {existingBlogs.length === 0 && <p style={{ color: "#64748b" }}>No blogs found.</p>}
               {existingBlogs.map((blog) => (
                 <div key={blog.id} style={styles.listItem}>
-                  <div style={{flex: 1}}>
+                  <div style={{ flex: 1 }}>
                     <div style={styles.itemTitle}>{blog.title}</div>
                     <div style={styles.itemMeta}>{blog.author} • {blog.date ? new Date(blog.date).toLocaleDateString() : ""}</div>
                   </div>
-                  <div style={{display: "flex", gap: "10px"}}>
+                  <div style={{ display: "flex", gap: "10px" }}>
                     <button onClick={() => handleEdit(blog)} style={styles.editBtn}>Edit</button>
                     <button onClick={() => handleDelete(blog.id)} style={styles.deleteBtn}>Delete</button>
                   </div>
@@ -209,6 +216,8 @@ export default function BlogAdmin() {
   );
 }
 
+// Local cleanContent helper removed (centralized in utils/cleanMarkdown.js)
+
 const styles = {
   page: { minHeight: "100vh", background: "#020617", paddingTop: "100px", paddingBottom: "80px", color: "white" },
   container: { maxWidth: "1400px", margin: "0 auto", padding: "0 24px" },
@@ -218,13 +227,13 @@ const styles = {
   btnGroup: { display: "flex", gap: "12px" },
   secondaryBtn: { background: "none", border: "1px solid #334155", color: "#cbd5e1", padding: "10px 20px", borderRadius: "8px", cursor: "pointer" },
   primaryBtn: { background: "#7b4bff", border: "none", color: "white", padding: "10px 24px", borderRadius: "8px", fontWeight: "600", cursor: "pointer" },
-  
+
   editorGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", height: "60vh", marginBottom: "60px" },
   inputCol: { display: "flex", flexDirection: "column", gap: "16px" },
   titleInput: { background: "#1e293b", border: "1px solid #334155", padding: "16px", borderRadius: "8px", fontSize: "1.2rem", color: "white", fontWeight: "600" },
   metaInput: { background: "#1e293b", border: "1px solid #334155", padding: "14px", borderRadius: "8px", fontSize: "1rem", color: "white" },
   contentInput: { flex: 1, background: "#1e293b", border: "1px solid #334155", padding: "16px", borderRadius: "8px", fontSize: "1rem", color: "#e2e8f0", fontFamily: "monospace", resize: "none", lineHeight: "1.5" },
-  
+
   previewCol: { background: "#0f172a", border: "1px solid #334155", borderRadius: "12px", display: "flex", flexDirection: "column", overflow: "hidden" },
   previewHeader: { background: "#1e293b", padding: "10px 20px", fontSize: "0.8rem", fontWeight: "600", textTransform: "uppercase", color: "#94a3b8", borderBottom: "1px solid #334155" },
   previewScroll: { padding: "30px", overflowY: "auto", flex: 1 },
@@ -238,7 +247,7 @@ const styles = {
   listItem: { background: "#1e293b", padding: "16px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "space-between", border: "1px solid #334155" },
   itemTitle: { fontWeight: "600", fontSize: "1rem", marginBottom: "4px" },
   itemMeta: { fontSize: "0.85rem", color: "#94a3b8" },
-  
+
   // Button Styles
   editBtn: { background: "rgba(59, 130, 246, 0.1)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.2)", padding: "6px 12px", borderRadius: "6px", cursor: "pointer", fontSize: "0.85rem", fontWeight: "600", transition: "0.2s" },
   deleteBtn: { background: "rgba(239, 68, 68, 0.1)", color: "#ef4444", border: "1px solid rgba(239, 68, 68, 0.2)", padding: "6px 12px", borderRadius: "6px", cursor: "pointer", fontSize: "0.85rem", fontWeight: "600", transition: "0.2s" }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { GOOGLE_SCRIPT_URL } from "../config";
 import bgImage from "../assets/home_background.jpg";
 
 import "../styles/pages/admin-login.css"; // ← NEW
@@ -18,17 +19,56 @@ export default function AdminLogin() {
     localStorage.removeItem("admin_token");
   }, []);
 
-  const handleLogin = (e) => {
+
+
+  // RETHINKING: 
+  // User asked for "Server-Side Strategy".
+  // If `no-cors` prevents reading the token, we can't do modern auth easily.
+  // WORKAROUND:
+  // We will use the `doGet` endpoint for Login.
+  // GET requests are much friendlier for CORS in GAS.
+  // `fetch(URL + "?action=login&password=" + password)`
+  // This allows us to `await response.json()` and get the token.
+
+  // Implementation:
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
-    if (username === "stamatics" && password === "stamatics2025") {
-      // Create the session
-      localStorage.setItem("admin_token", "valid-token");
-      
-      // Standard navigation (Pushes to history, so Back button works)
-      navigate("/admin/dashboard");
-    } else {
-      setError("Invalid Username or Password");
+    setError("Verifying...");
+
+    try {
+      const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL;
+      const response = await fetch(`${scriptUrl}?action=login&password=${encodeURIComponent(password)}`);
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (jsonErr) {
+        // If parsing fails, it's likely an HTML error page from GAS
+        console.error("Backend sent non-JSON response:", text);
+        // Try to extract the error message from the standard GAS error page
+        const match = text.match(/Exception: (.*?)<\/div>/);
+        if (match && match[1]) {
+          throw new Error("Backend Error: " + match[1]);
+        }
+        throw new Error("Server returned an invalid response (not JSON).");
+      }
+
+      if (data.success && data.token) {
+        localStorage.setItem("admin_token", data.token);
+        navigate("/admin/dashboard");
+      } else {
+        setError(data.error || "Invalid Password");
+      }
+    } catch (err) {
+      console.error(err);
+      // Display the actual error message (e.g. from the backend or network)
+      const message = err.message || "Connection Failed or Script not deployed properly.";
+      if (message === "Failed to fetch") {
+        setError("Backend Script Crashed (likely invalid Sheet ID). Access denied to error details due to CORS.");
+      } else {
+        setError(message);
+      }
     }
   };
 
@@ -38,14 +78,14 @@ export default function AdminLogin() {
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="admin-login-overlay" />
-      
+
       <div className="admin-login-card">
         <h1 className="admin-login-title">Admin Portal</h1>
-        
+
         <p className="admin-login-subtitle">Authorized Personnel Only</p>
-        
+
         <form onSubmit={handleLogin} className="admin-login-form">
-          
+
           <div className="admin-login-input-group">
             <input
               type="text"
@@ -66,7 +106,7 @@ export default function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
               />
-              
+
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -87,7 +127,7 @@ export default function AdminLogin() {
               </button>
             </div>
           </div>
-          
+
           {error && <p className="admin-login-error">{error}</p>}
 
           <button type="submit" className="admin-login-button">

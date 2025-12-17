@@ -29,6 +29,7 @@
   height: 68px;
   object-fit: contain;
   border-radius: 50%;
+  mix-blend-mode: screen;
 }
 
 .logo-title {

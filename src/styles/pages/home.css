@@ -6,7 +6,8 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-size: cover;          /* FULL background */
+  background-size: cover;
+  /* FULL background */
   background-position: center top;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -15,11 +16,9 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-      circle at 20% 0,
+  background: radial-gradient(circle at 20% 0,
       rgba(123, 75, 255, 0.25),
-      transparent 55%
-    ),
+      transparent 55%),
     rgba(0, 0, 0, 0.75);
   z-index: 0;
 }
@@ -27,49 +26,60 @@
 .hero-content {
   position: relative;
   z-index: 1;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 32px;
   min-height: 100vh;
 
-  display: grid;
-  grid-template-columns: 1.4fr 1.6fr;
-  gap: 120px;
+  /* CENTERED LAYOUT FIX */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Vertically center */
+  align-items: center;
+  /* Horizontally center */
+  text-align: center;
+  padding-bottom: 200px;
+  /* Space for the About section to overlap slightly */
 }
 
 /* =========================
-   LEFT COLUMN
+   LEFT COLUMN (Now Centered Main)
 ========================= */
 
 .hero-left {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding-top: 26vh; /* adjust hero text vertical position */
-  min-height: 100vh;
+  align-items: center;
+  /* Removed padding-top 26vh to allow flex centering */
 }
 
 .hero-center {
-  max-width: 640px;
+  max-width: 800px;
+  /* Increased width for centered text */
 }
 
 .hero-title {
-  font-size: clamp(38px, 4vw + 10px, 60px);
+  font-size: clamp(40px, 5vw + 1rem, 72px);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+  line-height: 1.1;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
-  font-size: 18px;
-  color: var(--text-muted);
+  font-size: 20px;
+  color: rgba(229, 231, 235, 0.9);
+  /* Brighter for better contrast */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* =========================
-   RIGHT COLUMN
+   RIGHT COLUMN (Removed/Hidden)
 ========================= */
 
 .hero-right {
-  display: block;
+  display: none;
 }
 
 /* =========================
@@ -79,33 +89,40 @@
 .about-full {
   width: 100%;
   padding: 0 32px 64px;
-  margin-top: -380px;        /* pulls About over hero */
+  margin-top: -150px;
+  /* Reduced from -380px to prevent clashing */
   background: transparent;
   position: relative;
-  z-index: 2;                /* above hero overlay */
+  z-index: 2;
 }
 
 .about-full-inner {
-  max-width: 1400px;
+  max-width: 1000px;
+  /* Centered narrow read */
   margin: 0 auto;
   background: rgba(15, 23, 42, 0.88);
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  border-radius: 14px;
-  padding: 28px 32px;
-  backdrop-filter: blur(6px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 20px;
+  padding: 40px 48px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 .about-full-title {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
 }
 
 .about-full-text {
-  font-size: 16px;
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin-bottom: 12px;
+  font-size: 17px;
+  color: #cbd5e1;
+  line-height: 1.75;
+  margin-bottom: 16px;
+  text-align: center;
+  /* Center align text for symmetry */
 }
 
 /* =========================
