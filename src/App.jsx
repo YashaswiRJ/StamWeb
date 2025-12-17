@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 
 // Components
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
+
 
 // Public Pages
 import Home from "./pages/Home";
@@ -24,6 +26,7 @@ import "./styles/globals.css";
 function App() {
   return (
     <div className="page-root">
+      <ScrollToTop />
       <Navbar />
       <Routes>
         {/* ================= PUBLIC ROUTES ================= */}

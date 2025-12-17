@@ -47,7 +47,10 @@ export default function TeamAdmin() {
         try {
             const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=get_team`);
             const data = await response.json();
-            if (Array.isArray(data)) {
+            if (data.error) {
+                alert("Backend Error: " + data.error);
+                setTeamMembers([]);
+            } else if (Array.isArray(data)) {
                 setTeamMembers(data);
                 // Update Cache
                 localStorage.setItem("team_data_cache", JSON.stringify({

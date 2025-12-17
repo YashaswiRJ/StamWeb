@@ -36,20 +36,39 @@ export default function AdminLogin() {
     setError("Verifying...");
 
     try {
-      // Use GET for Login to bypass CORS issues with POST response reading
-      const response = await fetch(`${import.meta.env.VITE_GOOGLE_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbzS5-..."}?action=login&password=${encodeURIComponent(password)}`);
-      const data = await response.json();
+      const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL;
+      const response = await fetch(`${scriptUrl}?action=login&password=${encodeURIComponent(password)}`);
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (jsonErr) {
+        // If parsing fails, it's likely an HTML error page from GAS
+        console.error("Backend sent non-JSON response:", text);
+        // Try to extract the error message from the standard GAS error page
+        const match = text.match(/Exception: (.*?)<\/div>/);
+        if (match && match[1]) {
+          throw new Error("Backend Error: " + match[1]);
+        }
+        throw new Error("Server returned an invalid response (not JSON).");
+      }
 
       if (data.success && data.token) {
         localStorage.setItem("admin_token", data.token);
         navigate("/admin/dashboard");
       } else {
-        setError("Invalid Password (Server Rejected)");
+        setError(data.error || "Invalid Password");
       }
     } catch (err) {
       console.error(err);
-      // Fallback for demo/offline: if password is the hardcoded one, we might allow? NO. User asked for Security.
-      setError("Connection Failed or Script not deployed properly.");
+      // Display the actual error message (e.g. from the backend or network)
+      const message = err.message || "Connection Failed or Script not deployed properly.";
+      if (message === "Failed to fetch") {
+        setError("Backend Script Crashed (likely invalid Sheet ID). Access denied to error details due to CORS.");
+      } else {
+        setError(message);
+      }
     }
   };
 

@@ -6,7 +6,8 @@ import "katex/dist/katex.min.css";
 import { useNavigate } from "react-router-dom";
 import { GOOGLE_SCRIPT_URL } from "../config";
 
-import "../styles/pages/blog-admin.css"; // ← NEW
+import "../styles/pages/blog-admin.css";
+import { cleanMarkdown } from "../utils/cleanMarkdown";
 
 const initialBlog = { title: "", author: "", content: "# New Post\n\nStart writing..." };
 
@@ -34,7 +35,12 @@ export default function BlogAdmin() {
     try {
       const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=get_blogs`);
       const data = await response.json();
-      setExistingBlogs(Array.isArray(data) ? data : []);
+      if (data.error) {
+        alert("Backend Error: " + data.error);
+        setExistingBlogs([]);
+      } else {
+        setExistingBlogs(Array.isArray(data) ? data : []);
+      }
     } catch (error) {
       console.error("Error loading list:", error);
     } finally {
@@ -173,7 +179,7 @@ export default function BlogAdmin() {
               <p style={styles.prevMeta}>{blogData.author || "Author"} • {new Date().toLocaleDateString()}</p>
               <div className="markdown-body" style={styles.markdownBody}>
                 <ReactMarkdown
-                  children={blogData.content}
+                  children={cleanMarkdown(blogData.content)}
                   remarkPlugins={[remarkMath]}
                   rehypePlugins={[rehypeKatex]}
                   components={{ img: ({ node, ...props }) => <img {...props} style={{ maxWidth: "100%", borderRadius: "8px", margin: "15px 0" }} /> }}
@@ -209,6 +215,8 @@ export default function BlogAdmin() {
     </div>
   );
 }
+
+// Local cleanContent helper removed (centralized in utils/cleanMarkdown.js)
 
 const styles = {
   page: { minHeight: "100vh", background: "#020617", paddingTop: "100px", paddingBottom: "80px", color: "white" },

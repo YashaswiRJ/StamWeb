@@ -7,7 +7,7 @@ function Blogs() {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.header}>All Articles</h1>
+      <h1 style={styles.header}>All Blogs</h1>
       <p style={styles.subHeader}>
         Explore our latest thoughts on Mathematics, Statistics, and logic.
       </p>
@@ -28,21 +28,21 @@ function Blogs() {
         <div style={styles.grid}>
           {blogs.length === 0 ? (
             <p style={{ color: "#888", gridColumn: "1 / -1", textAlign: "center" }}>
-              No articles found.
+              No blogs found.
             </p>
           ) : (
             blogs.map((blog) => (
               <article key={blog.id} style={styles.card}>
-                <div style={styles.thumbnail}></div> 
+                <div style={styles.thumbnail}></div>
                 <div style={styles.cardContent}>
                   <h2 style={styles.cardTitle}>
-                    {blog.title.length > 55 ? blog.title.substring(0, 55) + "..." : blog.title}
+                    {blog.title.length > 100 ? blog.title.substring(0, 100) + "..." : blog.title}
                   </h2>
                   <p style={styles.meta}>
                     {blog.author} • {blog.date ? new Date(blog.date).toLocaleDateString() : "Recent"}
                   </p>
                   <Link to={`/blogs/${blog.id}`} style={styles.link}>
-                    Read Article →
+                    Read Blog →
                   </Link>
                 </div>
               </article>
@@ -59,7 +59,7 @@ const styles = {
   header: { fontSize: "3rem", marginBottom: "10px", fontWeight: "bold" },
   subHeader: { color: "#aaa", marginBottom: "50px", fontSize: "1.2rem" },
   grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "30px" },
-  
+
   card: { backgroundColor: "#111", border: "1px solid #333", borderRadius: "12px", overflow: "hidden", transition: "transform 0.2s" },
   thumbnail: { height: "150px", background: "linear-gradient(135deg, #1e293b, #475569)" },
   cardContent: { padding: "20px" },
