@@ -9,7 +9,7 @@ import { GOOGLE_SCRIPT_URL } from "../config";
 import "../styles/pages/blog-admin.css";
 import { cleanMarkdown } from "../utils/cleanMarkdown";
 
-const initialBlog = { title: "", author: "", content: "# New Post\n\nStart writing..." };
+const initialBlog = { title: "", author: "", thumbnail: "", content: "" };
 
 export default function BlogAdmin() {
   const [blogData, setBlogData] = useState(initialBlog);
@@ -50,7 +50,7 @@ export default function BlogAdmin() {
 
   // --- 2. START EDITING ---
   const handleEdit = (blog) => {
-    setBlogData({ title: blog.title, author: blog.author, content: blog.content });
+    setBlogData({ title: blog.title, author: blog.author, thumbnail: blog.thumbnail || "", content: blog.content });
     setEditingId(blog.id);
     window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to editor
   };
@@ -80,6 +80,7 @@ export default function BlogAdmin() {
       token: localStorage.getItem("admin_token"),
       title: blogData.title,
       author: blogData.author,
+      thumbnail: blogData.thumbnail,
       content: blogData.content
     };
 
@@ -168,8 +169,17 @@ export default function BlogAdmin() {
         <div style={styles.editorGrid}>
           <div style={styles.inputCol}>
             <input name="title" placeholder="Post Title" value={blogData.title} onChange={handleChange} style={styles.titleInput} />
-            <input name="author" placeholder="Author Name" value={blogData.author} onChange={handleChange} style={styles.metaInput} />
-            <textarea name="content" value={blogData.content} onChange={handleChange} style={styles.contentInput} />
+            <div style={{ display: "flex", gap: "10px" }}>
+              <input name="author" placeholder="Author Name" value={blogData.author} onChange={handleChange} style={{ ...styles.metaInput, flex: 1 }} />
+              <input name="thumbnail" placeholder="Thumbnail URL (Optional)" value={blogData.thumbnail} onChange={handleChange} style={{ ...styles.metaInput, flex: 1 }} />
+            </div>
+            <textarea
+              name="content"
+              placeholder="Write your blog post here... (Markdown & LaTeX supported)"
+              value={blogData.content}
+              onChange={handleChange}
+              style={styles.contentInput}
+            />
           </div>
 
           <div style={styles.previewCol}>
@@ -177,6 +187,20 @@ export default function BlogAdmin() {
             <div style={styles.previewScroll}>
               <h1 style={styles.prevTitle}>{blogData.title || "Untitled"}</h1>
               <p style={styles.prevMeta}>{blogData.author || "Author"} • {new Date().toLocaleDateString()}</p>
+              {/* Thumbnail Preview */}
+              {blogData.thumbnail || (blogData.content && blogData.content.match(/!\[.*?\]\((.*?)(?:\s+".*?")?\)/)) ? (
+                <img
+                  src={blogData.thumbnail || (blogData.content.match(/!\[.*?\]\((.*?)(?:\s+".*?")?\)/) ? blogData.content.match(/!\[.*?\]\((.*?)(?:\s+".*?")?\)/)[1] : "")}
+                  alt="Thumbnail Preview"
+                  style={{ width: "100%", height: "200px", objectFit: "contain", backgroundColor: "#020617", marginBottom: "20px", borderRadius: "8px", border: "1px solid #334155" }}
+                  onError={(e) => e.target.style.display = 'none'}
+                />
+              ) : (
+                <div style={{ width: "100%", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#1e293b", marginBottom: "20px", borderRadius: "8px", border: "1px dashed #334155", color: "#64748b", fontSize: "0.9rem" }}>
+                  No Thumbnail Preview
+                </div>
+              )}
+
               <div className="markdown-body" style={styles.markdownBody}>
                 <ReactMarkdown
                   children={cleanMarkdown(blogData.content)}

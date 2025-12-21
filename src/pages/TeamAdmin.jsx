@@ -6,7 +6,7 @@ import "../styles/pages/blog-admin.css"; // Reusing BlogAdmin styles for consist
 
 const initialMember = {
     name: "",
-    role: "",
+    role: "Coordinator", // Default to Coordinator
     bio: "",
     image: "",
     linkedin: "",
@@ -195,14 +195,16 @@ export default function TeamAdmin() {
                     </div>
 
                     <div style={styles.inputGroup}>
-                        <label style={styles.label}>Role</label>
-                        <input
+                        <label style={styles.label}>Position</label>
+                        <select
                             name="role"
                             value={memberData.role}
                             onChange={handleChange}
-                            style={styles.input}
-                            placeholder="e.g. Technical Lead"
-                        />
+                            style={styles.select}
+                        >
+                            <option value="Coordinator">Coordinator</option>
+                            <option value="Executive">Executive</option>
+                        </select>
                     </div>
 
                     <div style={styles.inputGroupFull}>
@@ -362,6 +364,15 @@ const styles = {
         borderRadius: "8px",
         color: "white",
         fontSize: "1rem",
+    },
+    select: {
+        background: "#0f172a",
+        border: "1px solid #334155",
+        padding: "12px",
+        borderRadius: "8px",
+        color: "white",
+        fontSize: "1rem",
+        cursor: "pointer",
     },
     textarea: {
         background: "#0f172a",

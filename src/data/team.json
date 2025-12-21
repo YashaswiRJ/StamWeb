@@ -1,34 +1,38 @@
 [
-  {
-    "name": "Saurav Kumar",
-    "role": "President",
-    "image": "#",
-    "bio": "Leads the club operations and strategic vision.",
-    "linkedin": "https://linkedin.com",
-    "github": "https://github.com"
-  },
-  {
-    "name": "Ananya Gupta",
-    "role": "Vice President",
-    "image": "#",
-    "bio": "Manages external relations and event coordination.",
-    "linkedin": "https://linkedin.com",
-    "github": "#"
-  },
-  {
-    "name": "Rohit Sharma",
-    "role": "Technical Lead",
-    "image": "#",
-    "bio": "Full-stack developer handling the club website and infra.",
-    "linkedin": "#",
-    "github": "https://github.com"
-  },
-  {
-    "name": "Priya Singh",
-    "role": "Creative Head",
-    "image": "#",
-    "bio": "Oversees design assets and social media branding.",
-    "linkedin": "https://linkedin.com",
-    "github": "#"
-  }
+    {
+        "id": "yashaswi-raj-1766232124663",
+        "name": "Yashaswi Raj",
+        "role": "General Secretary",
+        "bio": "Leading the club with vision and passion.",
+        "image": "https://drive.google.com/uc?export=view&id=1i1QwJY89yP95YPRFGjLPOBqz_ZyhyQFd",
+        "linkedin": "https://www.linkedin.com/in/yashaswi-raj-39580a282/",
+        "github": "https://github.com/YashaswiRJ"
+    },
+    {
+        "id": "saptarshi-mandal",
+        "name": "Saptarshi Mandal",
+        "role": "Technical Coordinator",
+        "bio": "Building robust systems and clean code.",
+        "image": "https://drive.google.com/uc?export=view&id=1IpsLNsezW0yC8kLQXDetCN8lrj7YOGH3",
+        "linkedin": "https://www.linkedin.com/in/saptarshi-mandal-807616283/",
+        "github": "https://github.com/rishingx"
+    },
+    {
+        "id": "mainak-sarkar",
+        "name": "Mainak Sarkar",
+        "role": "Event Coordinator",
+        "bio": "Orchestrating memorable events.",
+        "image": "#",
+        "linkedin": "linkedin.com/in/mainak-sarkar-bab62428a",
+        "github": "https://github.com/mainak9093"
+    },
+    {
+        "id": "dummy-1766235548543",
+        "name": "Test User",
+        "role": "Executive",
+        "bio": "A passionate team member.",
+        "image": "#",
+        "linkedin": "",
+        "github": ""
+    }
 ]

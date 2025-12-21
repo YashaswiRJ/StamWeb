@@ -16,16 +16,20 @@ export const cleanMarkdown = (text) => {
         .replace(/\*\*\*\s*([^*]+?)\s*\*\*\*/g, "*$1*")
 
         // 3. ROBUST BOLD FIXING
-        // Strategy: Aggressively strip spaces immediately inside double-asterisks.
-        // "** Text **" -> "**Text**"
-        // "**Text **" -> "**Text**"
-        // "** Text**" -> "**Text**"
-        .replace(/\*\*\s+/g, '**') // Remove space AFTER **
-        .replace(/\s+\*\*/g, '**') // Remove space BEFORE **
-
-        // 4. Fix stuck bold (e.g. "word**bold**" -> "word **bold**")
-        // Ensures a space exists before a bold block if it follows a word character
-        .replace(/([a-zA-Z0-9])\*\*/g, "$1 **")
+        // Handles:
+        // - "** text **" -> "**text**" (Trimming inside)
+        // - "word**text**" -> "word **text**" (Decoupling)
+        // - "**text**word" -> "**text** word" (Decoupling)
+        // - "(**text**)" -> "(**text**)" (Preserving punctuation)
+        .replace(/([a-zA-Z0-9]?)(\*\*)(\s*)(.*?)(\s*)(\*\*)([a-zA-Z0-9]?)/g, (match, prefix, open, space1, content, space2, close, suffix) => {
+            let inner = content || "";
+            let result = "**" + inner + "**";
+            if (prefix) result = prefix + " " + result;
+            else result = prefix + result;
+            if (suffix) result = result + " " + suffix;
+            else result = result + suffix;
+            return result;
+        })
 
         // 5. Standard cleanups
         .replace(/\s+,/g, ",")

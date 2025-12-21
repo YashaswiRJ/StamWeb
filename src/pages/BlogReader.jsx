@@ -99,7 +99,10 @@ export default function BlogReader() {
                 ) : (
                   <pre style={styles.pre} {...props}><code style={styles.blockCode}>{children}</code></pre>
                 );
-              }
+              },
+              strong: ({ node, ...props }) => <strong style={styles.strong} {...props} />,
+              em: ({ node, ...props }) => <em style={styles.em} {...props} />,
+              a: ({ node, ...props }) => <a style={styles.link} {...props} />
             }}
           />
         </div>
@@ -231,5 +234,19 @@ const styles = {
     fontFamily: '"Menlo", "Monaco", "Courier New", monospace',
     fontSize: "16px",
     color: "#e2e8f0"
+  },
+  strong: {
+    fontWeight: "900",
+    color: "#fff"
+  },
+  em: {
+    fontStyle: "italic",
+    color: "#e2e8f0"
+  },
+  link: {
+    color: "#7b4bff",
+    textDecoration: "underline",
+    textDecorationSkipInk: "auto",
+    cursor: "pointer"
   }
 };
