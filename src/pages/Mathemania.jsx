@@ -3,19 +3,21 @@ import { GOOGLE_SCRIPT_URL } from "../config";
 import "../styles/pages/mathemania.css";
 
 function Mathemania() {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     teamName: "",
     institute: "",
     teamLeader: "",
     email: "",
-    contactNumber: "", // Initialized here
+    contactNumber: "",
     member2Name: "",
     member2Email: "",
     member3Name: "",
     member3Email: "",
     member4Name: "",
     member4Email: ""
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   const [submitting, setSubmitting] = useState(false);
   const [announcement, setAnnouncement] = useState("");
@@ -76,6 +78,8 @@ function Mathemania() {
         body: JSON.stringify(formData)
       });
       alert("🎉 Registration successful!");
+        setFormData(initialFormData);
+        setContactError("");
     } catch (error) {
       alert("Error submitting registration.");
     } finally {

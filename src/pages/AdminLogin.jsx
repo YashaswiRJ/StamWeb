@@ -3,72 +3,85 @@ import { useNavigate } from "react-router-dom";
 import { GOOGLE_SCRIPT_URL } from "../config";
 import bgImage from "../assets/home_background.jpg";
 
-import "../styles/pages/admin-login.css"; // ← NEW
+import "../styles/pages/admin-login.css";
+
+/**
+ * SECURITY MODEL:
+ * - Username + SHA-256 password check (frontend)
+ * - No plain-text password comparison
+ * - No backend response reading (CORS-safe)
+ * - Suitable for college admin panel
+ */
+
+// 🔐 ADMIN CREDENTIALS
+const ADMIN_USERNAME = "stamatics";
+
+// 🔐 SHA-256 HASH of the real password
+// (Generated once using crypto.subtle)
+const ADMIN_PASSWORD_HASH =
+  "5a92444ec916ca40c3756ca510cdcab2991d35a8d243dad52f0bb52475c3a216";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  // SECURITY FEATURE: 
-  // When this page loads (even via Back button), WIPE the token immediately.
-  // This ensures that "Forward" navigation will fail because the session is dead.
+  // Clear any existing admin session on page load
   useEffect(() => {
     localStorage.removeItem("admin_token");
   }, []);
 
+  // 🔐 SHA-256 hashing using Web Crypto API
+  const sha256 = async (text) => {
+    const encoded = new TextEncoder().encode(text);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  };
 
-
-  // RETHINKING: 
-  // User asked for "Server-Side Strategy".
-  // If `no-cors` prevents reading the token, we can't do modern auth easily.
-  // WORKAROUND:
-  // We will use the `doGet` endpoint for Login.
-  // GET requests are much friendlier for CORS in GAS.
-  // `fetch(URL + "?action=login&password=" + password)`
-  // This allows us to `await response.json()` and get the token.
-
-  // Implementation:
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("Verifying...");
+    setError("");
+
+    // Username check
+    if (username.trim() !== ADMIN_USERNAME) {
+      setError("Invalid username");
+      return;
+    }
 
     try {
-      const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL;
-      const response = await fetch(`${scriptUrl}?action=login&password=${encodeURIComponent(password)}`);
+      // Hash entered password
+      const enteredHash = await sha256(password);
 
-      const text = await response.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (jsonErr) {
-        // If parsing fails, it's likely an HTML error page from GAS
-        console.error("Backend sent non-JSON response:", text);
-        // Try to extract the error message from the standard GAS error page
-        const match = text.match(/Exception: (.*?)<\/div>/);
-        if (match && match[1]) {
-          throw new Error("Backend Error: " + match[1]);
-        }
-        throw new Error("Server returned an invalid response (not JSON).");
+      // Password check (HASH vs HASH)
+      if (enteredHash !== ADMIN_PASSWORD_HASH) {
+        setError("Invalid password");
+        return;
       }
 
-      if (data.success && data.token) {
-        localStorage.setItem("admin_token", data.token);
-        navigate("/admin/dashboard");
-      } else {
-        setError(data.error || "Invalid Password");
-      }
+      const scriptUrl =
+        import.meta.env.VITE_GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL;
+
+      // Optional backend ping (fire-and-forget)
+      await fetch(scriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "ping" }),
+      });
+
+      // Login success
+      localStorage.setItem("admin_token", "LOGGED_IN");
+      navigate("/admin/dashboard");
+
     } catch (err) {
       console.error(err);
-      // Display the actual error message (e.g. from the backend or network)
-      const message = err.message || "Connection Failed or Script not deployed properly.";
-      if (message === "Failed to fetch") {
-        setError("Backend Script Crashed (likely invalid Sheet ID). Access denied to error details due to CORS.");
-      } else {
-        setError(message);
-      }
+      setError("Login failed. Please try again.");
     }
   };
 
@@ -81,11 +94,11 @@ export default function AdminLogin() {
 
       <div className="admin-login-card">
         <h1 className="admin-login-title">Admin Portal</h1>
-
         <p className="admin-login-subtitle">Authorized Personnel Only</p>
 
         <form onSubmit={handleLogin} className="admin-login-form">
 
+          {/* Username */}
           <div className="admin-login-input-group">
             <input
               type="text"
@@ -97,6 +110,7 @@ export default function AdminLogin() {
             />
           </div>
 
+          {/* Password */}
           <div className="admin-login-input-group">
             <div className="admin-login-password-wrapper">
               <input
@@ -113,17 +127,7 @@ export default function AdminLogin() {
                 className="admin-login-eye-button"
                 aria-label="Toggle password visibility"
               >
-                {showPassword ? (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                ) : (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                    <line x1="1" y1="1" x2="23" y2="23"></line>
-                  </svg>
-                )}
+                {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
           </div>
