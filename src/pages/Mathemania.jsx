@@ -62,13 +62,18 @@ function Mathemania() {
 
                 <div className="math-contact-info">
                   <p>For further assistance, please reach out to the organizing team.</p>
-                  <button 
-                    className="math-submit-btn" 
-                    onClick={() => window.location.href = "mailto:admin@example.com"}
-                  >
-                    Contact Admin
-                  </button>
+                  {/* Redirecting to the /contact path */}
                 </div>
+                {/* Using a standard anchor tag styled as a button - 100% crash-proof */}
+              <a href="/contact" style={{ textDecoration: 'none', display: 'block', width: '100%' }}>
+                <button 
+                  className="math-submit-btn" 
+                  style={{ marginTop: "15px", cursor: "pointer" }}
+                  type="button"
+                >
+                  Contact Admin
+                </button>
+              </a>
               </div>
             </div>
           </div>
