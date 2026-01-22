@@ -55,7 +55,7 @@ function App() {
         <Route path="/admin/mathemania" element={<MathemaniaAdmin />} />
         <Route path="/admin/blogs" element={<BlogAdmin />} />
         <Route path="/admin/team" element={<TeamAdmin />} />
-        <Route path="/man-upload" element={<ManUpload />} />
+        {/* <Route path="/man-upload" element={<ManUpload />} /> */}
 
         {/* Fallback for unknown routes (optional) */}
         <Route path="*" element={<div style={{ padding: 50, color: "white" }}>404 - Page Not Found</div>} />
