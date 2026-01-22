@@ -14,6 +14,7 @@ import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 import Mathemania from "./pages/Mathemania";
 import ViewPdf from "./pages/ViewPdf";
+import MathQuiz from "./pages/MathQuiz";
 
 // Admin Pages (Ensure you created these in the previous step)
 import AdminLogin from "./pages/AdminLogin";
@@ -47,6 +48,7 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/view-pdf" element={<ViewPdf />} />
+        <Route path="/submit-answers" element={<MathQuiz />} />
         
 
         {/* ================= ADMIN ROUTES ================= */}
