@@ -72,24 +72,45 @@ const TeamCard = ({ member, priority = false }) => (
 );
 
 export default function Team() {
+  const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
   const [teamData, setTeamData] = useState(() => {
-    // 1. Try LocalStorage for returning users
     try {
       const cached = localStorage.getItem("team_data_cache");
       if (cached) {
-        const { data } = JSON.parse(cached);
-        if (Array.isArray(data)) return data;
+        const { data, timestamp } = JSON.parse(cached);
+        if (Array.isArray(data) && Date.now() - timestamp < CACHE_TTL) {
+          return data;
+        }
       }
-    } catch (e) { }
+    } catch (e) {}
 
-    // 2. Fallback to build-time JSON (Instant for new users if deployed)
     return globalTeamData;
   });
+
+  // const [teamData, setTeamData] = useState(() => {
+  //   // 1. Try LocalStorage for returning users
+  //   try {
+  //     const cached = localStorage.getItem("team_data_cache");
+  //     if (cached) {
+  //       const { data } = JSON.parse(cached);
+  //       if (Array.isArray(data)) return data;
+  //     }
+  //   } catch (e) { }
+
+  //   // 2. Fallback to build-time JSON (Instant for new users if deployed)
+  //   return globalTeamData;
+  // });
 
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=get_team`);
+        // const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=get_team`);
+        const response = await fetch(
+          `${GOOGLE_SCRIPT_URL}?action=get_team&ts=${Date.now()}`,
+            { cache: "no-store" }
+        );
+
         const data = await response.json();
         if (Array.isArray(data)) {
           setTeamData(data);
