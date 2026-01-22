@@ -304,3 +304,52 @@
 .team-socials { margin-top: auto; display: flex; gap: 15px; }
 .team-link { color: #64748b; transition: 0.2s; }
 .team-link:hover { color: #fff; }
+
+.team-avatar-wrapper {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #111;
+}
+
+.team-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: bold;
+  background: #222;
+  color: #aaa;
+}
+
+.team-socials {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.team-socials a {
+  font-size: 1.6rem;
+  color: #bbb;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.team-socials a:hover {
+  color: #0a66c2; /* LinkedIn blue */
+  transform: translateY(-2px);
+}
+
+.team-socials a:last-child:hover {
+  color: #fff; /* GitHub */
+}

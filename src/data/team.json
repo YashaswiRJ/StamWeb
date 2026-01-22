@@ -1,38 +1,22 @@
-[
-    {
-        "id": "yashaswi-raj-1766232124663",
-        "name": "Yashaswi Raj",
-        "role": "General Secretary",
-        "bio": "Leading the club with vision and passion.",
-        "image": "https://drive.google.com/uc?export=view&id=1i1QwJY89yP95YPRFGjLPOBqz_ZyhyQFd",
-        "linkedin": "https://www.linkedin.com/in/yashaswi-raj-39580a282/",
-        "github": "https://github.com/YashaswiRJ"
+{
+  "team_members": {
+    "yashaswi_raj": {
+      "name": "Yashaswi Raj",
+      "role": "Coordinator",
+      "bio": "Awesome",
+      "image": "https://res.cloudinary.com/dxyopyus4/...",
+      "linkedin": "https://www.linkedin.com/in/yashaswi-raj-39580a282/",
+      "github": "https://github.com/YashaswiRJ",
+      "priority": 1
     },
-    {
-        "id": "saptarshi-mandal",
-        "name": "Saptarshi Mandal",
-        "role": "Technical Coordinator",
-        "bio": "Building robust systems and clean code.",
-        "image": "https://drive.google.com/uc?export=view&id=1IpsLNsezW0yC8kLQXDetCN8lrj7YOGH3",
-        "linkedin": "https://www.linkedin.com/in/saptarshi-mandal-807616283/",
-        "github": "https://github.com/rishingx"
-    },
-    {
-        "id": "mainak-sarkar",
-        "name": "Mainak Sarkar",
-        "role": "Event Coordinator",
-        "bio": "Orchestrating memorable events.",
-        "image": "#",
-        "linkedin": "linkedin.com/in/mainak-sarkar-bab62428a",
-        "github": "https://github.com/mainak9093"
-    },
-    {
-        "id": "dummy-1766235548543",
-        "name": "Test User",
-        "role": "Executive",
-        "bio": "A passionate team member.",
-        "image": "#",
-        "linkedin": "",
-        "github": ""
+    "m_mithilesh": {
+      "name": "M Mithilesh",
+      "role": "Executive",
+      "bio": "Finding order in chaos",
+      "image": "https://res.cloudinary.com/dxyopyus4/...",
+      "linkedin": "https://www.linkedin.com/in/mattapalli-mithilesh-942727228/",
+      "github": "https://github.com/mithileshm24iitk",
+      "priority": 2
     }
-]
+  }
+}
