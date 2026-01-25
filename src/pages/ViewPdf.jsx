@@ -9,7 +9,7 @@ export default function ViewPdf() {
   // const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769277071/subjective_lq9htp.pdf";
 
   // Objective Paper
-  // const pdfUrl = "";
+  // const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769317327/Stamatics__Mathemania_2025_Objective_Round_sdhbkf.pdf";
 
   // Round 1
   const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769277232/_-2_s1ntmf.pdf";
