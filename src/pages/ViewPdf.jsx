@@ -12,7 +12,7 @@ export default function ViewPdf() {
   // const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769277233/_-3_xvy8m8.pdf";
 
    // Objective Paper
-   const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769321464/objective_1_cihxzm.pdf";
+   const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769324100/Mathemania_Obj_Full_fo463e.pdf";
 
   return (
     <div className="pdf-view-container">
