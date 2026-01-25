@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-// import { supabase, quizService } from './quizService';
-// import { createClient } from '@supabase/supabase-js';
-import { supabase, quizService } from "../services/quizService";
-// import { quizService } from "../services/quizService";
-import '../styles/pages/SecondRoundSubmission.css'
+import { supabase } from "../services/quizService"; // Import supabase directly
+import '../styles/pages/SecondRoundSubmission.css';
 
 const SecondRoundSubmission = () => {
   const [uniqueCode, setUniqueCode] = useState('');
@@ -27,15 +24,24 @@ const SecondRoundSubmission = () => {
     if (!file || !uniqueCode) return;
 
     setUploading(true);
-    setStatus({ type: 'info', msg: 'Verifying credentials...' });
+    setStatus({ type: 'info', msg: 'Verifying code...' });
 
     try {
-      // 1. Verify Team using unique code from mathemania_registrations
-      const team = await quizService.verifyTeamStatus(uniqueCode);
+      // 1. DIRECT TABLE CHECK (Bypasses quizService logic)
+      // We check the registration table directly to see if the code is valid
+      const { data: team, error: authError } = await supabase
+        .from('mathemania_registrations') // Ensure this is your registration table name
+        .select('team_name, institute')
+        .eq('unique_code', uniqueCode.trim())
+        .single();
+
+      if (authError || !team) {
+        throw new Error("Invalid Unique Code. Please check and try again.");
+      }
 
       setStatus({ type: 'info', msg: `Uploading ${team.team_name}'s solution...` });
 
-      // 2. Upload to Supabase Storage bucket 'solutions'
+      // 2. Upload to Storage
       const fileExt = file.name.split('.').pop();
       const fileName = `round2/${team.team_name.replace(/\s+/g, '_')}_${Date.now()}.${fileExt}`;
       
@@ -45,9 +51,10 @@ const SecondRoundSubmission = () => {
 
       if (storageError) throw storageError;
 
-      // 3. Get the URL and store in the new round_2_submissions table
+      // 3. Get Public URL
       const { data: { publicUrl } } = supabase.storage.from('solutions').getPublicUrl(fileName);
 
+      // 4. Insert into round_2_submissions
       const { error: dbError } = await supabase
         .from('round_2_submissions')
         .insert([{
@@ -63,6 +70,7 @@ const SecondRoundSubmission = () => {
       setFile(null);
       setUniqueCode('');
     } catch (err) {
+      // This will now only show errors we define here or actual database errors
       setStatus({ type: 'error', msg: err.message });
     } finally {
       setUploading(false);
