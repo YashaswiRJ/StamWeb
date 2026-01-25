@@ -166,34 +166,3 @@ export default function MathQuiz() {
     </div>
   );
 }
-
-// import React from 'react';
-
-// const MathQuiz = () => {
-//   const containerStyle = {
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     height: '60vh',
-//     textAlign: 'center',
-//     fontFamily: 'Arial, sans-serif'
-//   };
-
-//   const headerStyle = {
-//     color: '#d9534f', // Warning red
-//     fontSize: '2rem',
-//     marginBottom: '10px'
-//   };
-
-//   return (
-//     <div style={containerStyle}>
-//       <h2 style={headerStyle}>Time Up!</h2>
-//       <p style={{ fontSize: '1.2rem', color: '#555' }}>
-//         No more submissions are allowed for this session.
-//       </p>
-//     </div>
-//   );
-// };
-
-// export default MathQuiz;

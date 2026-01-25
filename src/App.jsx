@@ -18,6 +18,7 @@ import MathQuiz from "./pages/MathQuiz";
 import TeamTest from "./pages/TeamTest";
 import Leaderboard from "./pages/Leaderboard";
 import FetchRes from "./pages/FetchRes";
+import SecondRoundSubmission from "./pages/SecondRoundSubmission";
 
 // Admin Pages (Ensure you created these in the previous step)
 import AdminLogin from "./pages/AdminLogin";
@@ -54,7 +55,7 @@ function App() {
         <Route path="/view-pdf" element={<ViewPdf />} />
         <Route path="/submit-answers" element={<MathQuiz />} />
         <Route path="/team-test" element={<TeamTest />} />
-        <Route path="/fetch-res" element={<FetchRes />} />
+        <Route path="/srs" element={<SecondRoundSubmission />} />
 
 
         {/* ================= ADMIN ROUTES ================= */}

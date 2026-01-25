@@ -1,0 +1,273 @@
+.submission-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  background-color: #f4f7f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.submission-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+}
+
+.submission-title {
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.submission-subtitle {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #34495e;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.file-drop-zone {
+  border: 2px dashed #3498db;
+  border-radius: 8px;
+  padding: 30px 10px;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+  background: #f0f9ff;
+}
+
+.file-drop-zone.file-selected {
+  border-color: #2ecc71;
+  background: #fafff5;
+}
+
+.file-label {
+  cursor: pointer;
+  color: #3498db;
+  font-weight: 500;
+  display: block;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.submit-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.status-message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.status-message.error { background: #fee2e2; color: #b91c1c; }
+.status-message.success { background: #dcfce7; color: #15803d; }
+.status-message.info { background: #e0f2fe; color: #0369a1; }
+
+/* Matching the Mathemania / Stamatics Dark Aesthetic */
+.math-dark-container {
+  min-height: 100vh;
+  background: radial-gradient(circle at top right, #1e1b4b, #0a0a0c 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.submission-subtitle {
+  color: #7b4bff;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 30px;
+}
+
+.file-drop-zone {
+  border: 2px dashed rgba(123, 75, 255, 0.3);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
+  padding: 40px 20px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.file-drop-zone:hover {
+  border-color: #7b4bff;
+  background: rgba(123, 75, 255, 0.05);
+}
+
+.file-drop-zone.file-selected {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.file-label {
+  cursor: pointer;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.status-message {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+}
+
+.status-message.error {
+  background: rgba(255, 75, 75, 0.1);
+  border-color: #ff4b4b;
+  color: #ff4b4b;
+}
+
+.status-message.success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.status-message.info {
+  background: rgba(123, 75, 255, 0.1);
+  border-color: #7b4bff;
+  color: #cbd5e1;
+}
+
+/* src/pages/SecondRoundSubmission.css */
+
+.math-dark-container {
+  min-height: 90vh; /* Adjusted to fit below navbar */
+  background: transparent; /* Parent container handles the dark gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Fix for the white box - matches your math-quiz.css theme */
+.submission-card {
+  background: rgba(30, 41, 59, 0.4) !important; /* Deep Navy Glass */
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 24px;
+  padding: 50px 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.glitch-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #7b4bff;
+  text-shadow: 0 0 15px rgba(123, 75, 255, 0.4);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.submission-subtitle {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+
+/* File Drop Zone Styling */
+.file-drop-zone {
+  border: 2px dashed rgba(123, 75, 255, 0.3);
+  background: rgba(123, 75, 255, 0.03);
+  border-radius: 16px;
+  padding: 40px 20px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.file-drop-zone.file-selected {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.file-label {
+  cursor: pointer;
+  color: #cbd5e1;
+  font-size: 1rem;
+}
+
+/* Button style from your leaderboard/quiz theme */
+.math-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(45deg, #7b4bff, #4e1aff);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.math-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(123, 75, 255, 0.5);
+}
+
+.submission-card {
+  background: rgba(15, 23, 42, 0.8) !important; /* Deep Navy/Black */
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 24px;
+  padding: 50px 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+}
+
+/* Ensure the unique code label doesn't have a white background */
+.input-label {
+  background: #0f172a !important; /* Match the card depth */
+  color: #7b4bff;
+}
