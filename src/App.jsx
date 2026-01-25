@@ -55,7 +55,7 @@ function App() {
         <Route path="/view-pdf" element={<ViewPdf />} />
         <Route path="/submit-answers" element={<MathQuiz />} />
         <Route path="/team-test" element={<TeamTest />} />
-        <Route path="/srs" element={<SecondRoundSubmission />} />
+        <Route path="/second-round" element={<SecondRoundSubmission />} />
 
 
         {/* ================= ADMIN ROUTES ================= */}

@@ -9,10 +9,10 @@ export default function ViewPdf() {
   // const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769277232/_-2_s1ntmf.pdf";
 
   // Round 2
-  // const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769277233/_-3_xvy8m8.pdf";
+  const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769277233/_-3_xvy8m8.pdf";
 
    // Objective Paper
-   const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769324100/Mathemania_Obj_Full_fo463e.pdf";
+  //  const pdfUrl = "https://res.cloudinary.com/dxyopyus4/image/upload/v1769324100/Mathemania_Obj_Full_fo463e.pdf";
 
   return (
     <div className="pdf-view-container">
@@ -26,7 +26,7 @@ export default function ViewPdf() {
       <div className="pdf-viewer-card">
         <div className="pdf-toolbar">
           <span style={{ color: '#cbd5e1', fontWeight: '500' }}>
-             📄 Mathemania Round 1.pdf
+             📄 Mathemania Round 2.pdf
           </span>
           <a href={pdfUrl} download className="pdf-download-btn">
             <span>📥</span> Download Document

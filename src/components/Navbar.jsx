@@ -85,8 +85,8 @@ function Navbar() {
             <div className="dropdown-menu">
               <NavLink to="/mathemania" className="dropdown-item">Mathemania</NavLink>
               <NavLink to="/leaderboard" className="dropdown-item">Leaderboard</NavLink>
-              <NavLink to="/view-pdf" className="dropdown-item">Round 1: Answer Key</NavLink>
-              <NavLink to="/submit-answers" className="dropdown-item">Submit Answers</NavLink>
+              <NavLink to="/view-pdf" className="dropdown-item">Round 2: Questions</NavLink>
+              <NavLink to="/second-round" className="dropdown-item">Submit Answers</NavLink>
               {/* Participants link removed */}
             </div>
           </div>
