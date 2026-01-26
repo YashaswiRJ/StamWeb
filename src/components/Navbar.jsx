@@ -1,9 +1,8 @@
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/components/navbar.css";
 
-/* Cloudinary logo (scaled, not cropped) */
-const LOGO_URL =
-  "https://res.cloudinary.com/dxdjptisw/image/upload/c_scale,w_80,f_png,q_auto/logo_wbpyqn.png";
+/* Logo from environment variable (Vite) */
+const LOGO_URL = import.meta.env.VITE_LOGO_URL;
 
 const navLinkClass = ({ isActive }) =>
   "nav-link " + (isActive ? "nav-link-active" : "");
@@ -28,7 +27,10 @@ function Navbar() {
     return (
       <header className="navbar">
         <div className="navbar-inner">
-          <Link to={isLoginPage ? "/admin" : "/admin/dashboard"} className="logo">
+          <Link
+            to={isLoginPage ? "/admin" : "/admin/dashboard"}
+            className="logo"
+          >
             <img
               src={LOGO_URL}
               alt="Stamatics Logo"
@@ -45,7 +47,12 @@ function Navbar() {
                 Dashboard
               </NavLink>
 
-              <a href="/" target="_blank" rel="noreferrer" className="nav-link">
+              <a
+                href="/"
+                target="_blank"
+                rel="noreferrer"
+                className="nav-link"
+              >
                 View Live Site ↗
               </a>
 
