@@ -4,14 +4,32 @@
     <meta charset="UTF-8" />
     <title>Stamatics IIT Kanpur</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="/logo.png" type="image/png" />
+
+    <!-- Cloudinary Favicon from ENV (Vite HTML replacement) -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="%VITE_LOGO_URL%"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="%VITE_LOGO_URL%"
+    />
   </head>
+
   <body>
     <div id="root"></div>
+
+    <!-- React / Vite Entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

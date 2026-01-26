@@ -1,7 +1,8 @@
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
-
 import "../styles/components/navbar.css";
+
+/* Logo from environment variable (Vite) */
+const LOGO_URL = import.meta.env.VITE_LOGO_URL;
 
 const navLinkClass = ({ isActive }) =>
   "nav-link " + (isActive ? "nav-link-active" : "");
@@ -26,8 +27,15 @@ function Navbar() {
     return (
       <header className="navbar">
         <div className="navbar-inner">
-          <Link to={isLoginPage ? "/admin" : "/admin/dashboard"} className="logo">
-            <img src={logo} alt="Stamatics Logo" className="logo-image" />
+          <Link
+            to={isLoginPage ? "/admin" : "/admin/dashboard"}
+            className="logo"
+          >
+            <img
+              src={LOGO_URL}
+              alt="Stamatics Logo"
+              className="logo-image"
+            />
             <div className="logo-text">
               <span className="logo-title">Stamatics Admin</span>
             </div>
@@ -39,7 +47,12 @@ function Navbar() {
                 Dashboard
               </NavLink>
 
-              <a href="/" target="_blank" rel="noreferrer" className="nav-link">
+              <a
+                href="/"
+                target="_blank"
+                rel="noreferrer"
+                className="nav-link"
+              >
                 View Live Site ↗
               </a>
 
@@ -68,9 +81,12 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-inner">
-
         <Link to="/" className="logo">
-          <img src={logo} alt="Stamatics Logo" className="logo-image" />
+          <img
+            src={LOGO_URL}
+            alt="Stamatics Logo"
+            className="logo-image"
+          />
           <div className="logo-text">
             <span className="logo-title">Stamatics</span><br />
             <span className="logo-subtitle">IIT Kanpur</span>
@@ -78,8 +94,8 @@ function Navbar() {
         </Link>
 
         <nav className="nav-links top-right-nav">
-          {/* About Us link REMOVED */}
           <NavLink to="/" className={navLinkClass}>Home</NavLink>
+
           <div className="dropdown">
             <span className="dropdown-label">Competitions ▾</span>
             <div className="dropdown-menu">
@@ -87,7 +103,6 @@ function Navbar() {
               <NavLink to="/leaderboard" className="dropdown-item">Leaderboard</NavLink>
               <NavLink to="/view-pdf" className="dropdown-item">Round 2: Questions</NavLink>
               <NavLink to="/second-round" className="dropdown-item">Submit Answers</NavLink>
-              {/* Participants link removed */}
             </div>
           </div>
 
@@ -95,7 +110,6 @@ function Navbar() {
           <NavLink to="/team" className={navLinkClass}>Our Team</NavLink>
           <NavLink to="/contact" className={navLinkClass}>Contact</NavLink>
         </nav>
-
       </div>
     </header>
   );

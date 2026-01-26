@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GOOGLE_SCRIPT_URL } from "../config";
-import bgImage from "../assets/home_background.jpg";
-
 import "../styles/pages/admin-login.css";
+
+/* Background image from environment variable (Vite) */
+const HOME_BG_URL = import.meta.env.VITE_HOME_BG_URL;
 
 /**
  * SECURITY MODEL:
@@ -88,7 +89,7 @@ export default function AdminLogin() {
   return (
     <div
       className="admin-login-page"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      style={{ backgroundImage: `url(${HOME_BG_URL})` }}
     >
       <div className="admin-login-overlay" />
 
@@ -97,7 +98,6 @@ export default function AdminLogin() {
         <p className="admin-login-subtitle">Authorized Personnel Only</p>
 
         <form onSubmit={handleLogin} className="admin-login-form">
-
           {/* Username */}
           <div className="admin-login-input-group">
             <input
