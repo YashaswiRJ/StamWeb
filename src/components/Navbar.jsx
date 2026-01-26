@@ -1,7 +1,9 @@
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
-
 import "../styles/components/navbar.css";
+
+/* Cloudinary logo (scaled, not cropped) */
+const LOGO_URL =
+  "https://res.cloudinary.com/dxdjptisw/image/upload/c_scale,w_80,f_png,q_auto/logo_wbpyqn.png";
 
 const navLinkClass = ({ isActive }) =>
   "nav-link " + (isActive ? "nav-link-active" : "");
@@ -27,7 +29,11 @@ function Navbar() {
       <header className="navbar">
         <div className="navbar-inner">
           <Link to={isLoginPage ? "/admin" : "/admin/dashboard"} className="logo">
-            <img src={logo} alt="Stamatics Logo" className="logo-image" />
+            <img
+              src={LOGO_URL}
+              alt="Stamatics Logo"
+              className="logo-image"
+            />
             <div className="logo-text">
               <span className="logo-title">Stamatics Admin</span>
             </div>
@@ -68,9 +74,12 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-inner">
-
         <Link to="/" className="logo">
-          <img src={logo} alt="Stamatics Logo" className="logo-image" />
+          <img
+            src={LOGO_URL}
+            alt="Stamatics Logo"
+            className="logo-image"
+          />
           <div className="logo-text">
             <span className="logo-title">Stamatics</span><br />
             <span className="logo-subtitle">IIT Kanpur</span>
@@ -78,8 +87,8 @@ function Navbar() {
         </Link>
 
         <nav className="nav-links top-right-nav">
-          {/* About Us link REMOVED */}
           <NavLink to="/" className={navLinkClass}>Home</NavLink>
+
           <div className="dropdown">
             <span className="dropdown-label">Competitions ▾</span>
             <div className="dropdown-menu">
@@ -87,7 +96,6 @@ function Navbar() {
               <NavLink to="/leaderboard" className="dropdown-item">Leaderboard</NavLink>
               <NavLink to="/view-pdf" className="dropdown-item">Round 2: Questions</NavLink>
               <NavLink to="/second-round" className="dropdown-item">Submit Answers</NavLink>
-              {/* Participants link removed */}
             </div>
           </div>
 
@@ -95,7 +103,6 @@ function Navbar() {
           <NavLink to="/team" className={navLinkClass}>Our Team</NavLink>
           <NavLink to="/contact" className={navLinkClass}>Contact</NavLink>
         </nav>
-
       </div>
     </header>
   );
