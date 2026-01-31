@@ -78,6 +78,26 @@ export const quizService = {
     if (error) throw error;
     return data;
   },
+  // NEW: Fetch Round 2 Leaderboard
+  fetchRound2Leaderboard: async () => {
+    const { data, error } = await supabase
+      .from('leaderboard_round2') // Ensure this table exists in Supabase
+      .select('team_name, institute, total_marks')
+      .order('total_marks', { ascending: false });
+    
+    if (error) throw error;
+    return data;
+  },
+
+  fetchFinalLeaderboard: async () => {
+    const { data, error } = await supabase
+      .from('leaderboard_final')
+      .select('team_name, institute, total, position')
+      .order('total', { ascending: false });
+    
+    if (error) throw error;
+    return data;
+  },
 
   syncLeaderboard: async () => {
     // Calls the PostgreSQL function we just created

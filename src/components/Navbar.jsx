@@ -103,6 +103,7 @@ function Navbar() {
               <NavLink to="/leaderboard" className="dropdown-item">Leaderboard</NavLink>
               <NavLink to="/view-pdf" className="dropdown-item">Round 2: Questions</NavLink>
               <NavLink to="/second-round" className="dropdown-item">Submit Answers</NavLink>
+              {/* Participants link removed */}
             </div>
           </div>
 

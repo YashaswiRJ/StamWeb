@@ -44,7 +44,7 @@ function App() {
             For now, I have removed it to prevent errors. 
             [cite_start]The Navbar links directly to /mathemania anyway. [cite: 22] */}
 
-        <Route path="/mathemania" element={<Mathemania />} />
+        {/* <Route path="/mathemania" element={<Mathemania />} /> */}
         <Route path="/leaderboard" element={<Leaderboard />} />
 
         <Route path="/blogs" element={<Blogs />} />
@@ -52,10 +52,10 @@ function App() {
 
         <Route path="/team" element={<Team />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/view-pdf" element={<ViewPdf />} />
-        <Route path="/submit-answers" element={<MathQuiz />} />
-        <Route path="/team-test" element={<TeamTest />} />
-        <Route path="/second-round" element={<MathQuiz />} />
+        {/* <Route path="/view-pdf" element={<ViewPdf />} /> */}
+        {/* <Route path="/submit-answers" element={<MathQuiz />} /> */}
+        {/* <Route path="/team-test" element={<TeamTest />} /> */}
+        {/* <Route path="/second-round" element={<MathQuiz />} /> */}
 
 
         {/* ================= ADMIN ROUTES ================= */}
